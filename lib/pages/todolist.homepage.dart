@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todolist/structure/task.dart';
 
 class ToDoListHomePage extends StatefulWidget {
   @override
@@ -9,17 +10,18 @@ class ToDoListHomePage extends StatefulWidget {
 
 class _ToDoListHomePageState extends State<ToDoListHomePage> {
   var now = new DateTime.now();
-  List<String> tarefas = new List();
+  List<Task> tarefas = new List();
 
   //aqui estamos indicando o estado inicial de nosso widget
   @override
   void initState() {
     super.initState();
 
-    tarefas.add("adsaf");
-    tarefas.add("adafssaf");
-    tarefas.add("adsaasff");
-    tarefas.add("adasfsaf");
+    tarefas.add(new Task(
+        "Shopping", "Need to buy some clothes in Shopping Mall", false));
+    tarefas.add(
+        new Task("Supermarket", "Need to buy some food for quarentine", false));
+    tarefas.add(new Task("Gym", "Need to cancel my gym pass", false));
   }
 
   @override
@@ -47,26 +49,40 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 50, right: 160),
+              padding: EdgeInsets.only(top: 50, left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    DateFormat('EEEE, d MMM, yyyy').format(now),
+                    DateFormat('EEEE').format(now),
                     style: GoogleFonts.roboto(
-                      fontSize: 25,
+                      fontSize: 35,
                       fontWeight: FontWeight.bold,
                       textStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white,
                       ),
                     ),
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 8,
                   ),
                   Text(
-                    "You have 10 tasks to complete",
+                    DateFormat('d MMM, yyyy').format(now),
+                    style: GoogleFonts.roboto(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      textStyle: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "You have ${tarefas.length} tasks to complete",
                     style: GoogleFonts.roboto(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -76,19 +92,35 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     ),
                     textAlign: TextAlign.left,
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text(
+                    "Your tasks:",
+                    style: GoogleFonts.roboto(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 320,
+                    width: 500,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: tarefas.length,
+                      itemBuilder: (context, index) {
+                        return _cardTarefa(context, index);
+                      },
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(),
-              height: 100,
-              width: 500,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tarefas.length,
-                itemBuilder: (context, index) {
-                  return _cardTarefa(context, index);
-                },
               ),
             ),
           ],
@@ -104,13 +136,45 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
 
   Widget _cardTarefa(BuildContext context, int index) {
     return Container(
-      width: 200,
+      width: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
       child: Card(
         child: Wrap(
-          children: <Widget>[],
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, left: 0.0),
+                  child: Text(
+                    tarefas[index].name,
+                    style: GoogleFonts.roboto(
+                      fontSize: 25,
+                      textStyle: TextStyle(
+                        color: Colors.purple,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0, left: 8.0),
+                  child: Text(
+                    tarefas[index].description,
+                    style: GoogleFonts.roboto(
+                      fontSize: 15,
+                      textStyle: TextStyle(
+                        color: Colors.purple.withOpacity(0.75),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
