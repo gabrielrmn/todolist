@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'pages/todolist.homepage.dart';
+import 'pages/todolist.splashscreen.dart';
 
 void main() => runApp(ToDoList());
 
@@ -13,7 +12,7 @@ class ToDoList extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ToDoListHomePage(),
+      home: ToDoListSplashScreen(),
     );
   }
 }

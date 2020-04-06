@@ -20,7 +20,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
     tarefas.add(new Task(
         "Shopping", "Need to buy some clothes in Shopping Mall", false));
     tarefas.add(
-        new Task("Supermarket", "Need to buy some food for quarentine", false));
+        new Task("Supermarket", "Need to buy some food for quarentine", true));
     tarefas.add(new Task("Gym", "Need to cancel my gym pass", false));
   }
 
@@ -40,9 +40,9 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
               1,
             ],
             colors: [
-              Color.fromRGBO(102, 0, 102, 1),
-              Color.fromRGBO(102, 0, 102, 0.6),
-              Color.fromRGBO(102, 0, 102, 0.4),
+              Color.fromRGBO(0, 0, 51, 1),
+              Color.fromRGBO(0, 0, 128, 1),
+              Color.fromRGBO(0, 0, 128, 0.4),
             ],
           ),
         ),
@@ -141,6 +141,9 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Card(
+        color: tarefas[index].completed
+            ? Colors.white
+            : Colors.white.withOpacity(0.4),
         child: Wrap(
           children: <Widget>[
             Column(
@@ -150,9 +153,10 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                   child: Text(
                     tarefas[index].name,
                     style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.bold,
                       fontSize: 25,
                       textStyle: TextStyle(
-                        color: Colors.purple,
+                        color: Color.fromRGBO(0, 0, 51, 1),
                       ),
                     ),
                   ),
@@ -167,7 +171,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     style: GoogleFonts.roboto(
                       fontSize: 15,
                       textStyle: TextStyle(
-                        color: Colors.purple.withOpacity(0.75),
+                        color: Color.fromRGBO(0, 0, 51, 1),
                       ),
                     ),
                   ),
