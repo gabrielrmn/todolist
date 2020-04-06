@@ -17,16 +17,6 @@ class _SplashScreen extends State<ToDoListSplashScreen> {
         seconds: 7,
         navigateAfterSeconds:
             ToDoListHomePage(), //apos o splash screen ira para a pagina ToDoListHomePage
-        title: Text(
-          'Commit JR',
-          style: GoogleFonts.roboto(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            textStyle: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
         image: Image.asset(
           "assets/images/commit-jr_arara.png",
           alignment: Alignment.center,
@@ -43,7 +33,7 @@ class _SplashScreen extends State<ToDoListSplashScreen> {
         ),
         backgroundColor: Color.fromRGBO(0, 0, 51, 1),
         styleTextUnderTheLoader: TextStyle(),
-        photoSize: 180.0,
+        photoSize: 80.0,
         loaderColor: Colors.white);
   }
 }
