@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/structure/task.dart';
 import 'package:todolist/pages/todolist.createcard.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ToDoListHomePage extends StatefulWidget {
   @override
@@ -146,7 +147,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                 ),
                 Container(
                   width: 180,
-                  child: Text(
+                  child: AutoSizeText(
                     tarefas[index].name,
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.bold,
