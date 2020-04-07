@@ -19,10 +19,11 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
   void initState() {
     super.initState();
 
-    tarefas.add(new Task("Shopping", false, priority[0]));
-    tarefas.add(new Task("Supermarket", true, priority[1]));
-    tarefas.add(new Task("Gym", false, priority[2]));
-    tarefas.add(new Task("Work", false, priority[3]));
+    tarefas.add(new Task("Shopping", false, priority[0], "asfasfsaf"));
+    tarefas.add(new Task("Supermarket", true, priority[1], "asfasasffsaf"));
+    tarefas.add(new Task("Gym", false, priority[2], "asfasfsasfasfasfasfaf"));
+    tarefas
+        .add(new Task("Work", false, priority[3], "asfasfasfasfasfsafasfsaf"));
   }
 
   @override
@@ -138,6 +139,8 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
             Row(
               children: <Widget>[
                 Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: Colors.black,
                   value: tarefas[index].completed,
                   onChanged: (bool value) {
                     setState(() {
@@ -151,7 +154,6 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     tarefas[index].name,
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.bold,
-                      fontSize: 25,
                       textStyle: tarefas[index].completed
                           ? TextStyle(
                               color: Color.fromRGBO(0, 0, 51, 0.7),
@@ -191,11 +193,113 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     ),
                   ),
                 ),
+                IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    _showMoreHoriz(index);
+                  },
+                )
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showEditCard(int index) {}
+
+  void _showMoreHoriz(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.only(top: 160, left: 20, right: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          content: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 10),
+                height: 180,
+                width: 600,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.zoom_in),
+                        ),
+                        Text("Visualize Task"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.edit),
+                        ),
+                        Text("Edit Task"),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              tarefas.removeAt(index);
+                              Navigator.pop(context);
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                        Text("Delete Task"),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Container(
+                  height: 30,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.transparent,
+                  ),
+                  child: SizedBox.expand(
+                    child: FlatButton(
+                        child: Text(
+                          'FECHAR',
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1.0,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
