@@ -30,22 +30,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            stops: [
-              0.3,
-              0.45,
-              1,
-            ],
-            colors: [
-              Color.fromRGBO(0, 0, 51, 1),
-              Color.fromRGBO(0, 0, 128, 1),
-              Color.fromRGBO(0, 0, 128, 0.4),
-            ],
-          ),
-        ),
+        decoration: BoxDecoration(color: Colors.black.withOpacity(0.05)),
         child: Column(
           children: <Widget>[
             Padding(
@@ -59,7 +44,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                       textStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     textAlign: TextAlign.left,
@@ -73,7 +58,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       textStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.6),
+                        color: Colors.black.withOpacity(0.6),
                       ),
                     ),
                     textAlign: TextAlign.left,
@@ -87,7 +72,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       textStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.black.withOpacity(0.7),
                       ),
                     ),
                     textAlign: TextAlign.left,
@@ -101,7 +86,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       textStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     textAlign: TextAlign.left,
@@ -131,8 +116,8 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CreateCard()));
         },
-        child: Icon(Icons.add, color: Colors.deepPurple),
-        backgroundColor: Colors.white.withOpacity(0.9),
+        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.black.withOpacity(0.9),
       ),
     );
   }
