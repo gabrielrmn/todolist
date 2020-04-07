@@ -48,6 +48,27 @@ class CreateCard extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  minLines: 4,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    labelText: "Description",
+                    labelStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                    hintText: "Type the description of the task here",
+                    focusColor: Colors.black,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      borderSide: BorderSide(width: 1, color: Colors.black),
+                    ),
+                    fillColor: Colors.black,
+                  ),
+                ),
+              ),
             ],
           ),
         ],
