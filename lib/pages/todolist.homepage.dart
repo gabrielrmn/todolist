@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/structure/task.dart';
+import 'package:todolist/pages/todolist.createcard.dart';
 
 class ToDoListHomePage extends StatefulWidget {
   @override
@@ -11,17 +12,16 @@ class ToDoListHomePage extends StatefulWidget {
 class _ToDoListHomePageState extends State<ToDoListHomePage> {
   var now = new DateTime.now();
   List<Task> tarefas = new List();
-
+  List<String> priority = ["Low", "Normal", "High", "Urgent"];
   //aqui estamos indicando o estado inicial de nosso widget
   @override
   void initState() {
     super.initState();
 
-    tarefas.add(new Task(
-        "Shopping", "Need to buy some clothes in Shopping Mall", false));
-    tarefas.add(
-        new Task("Supermarket", "Need to buy some food for quarentine", true));
-    tarefas.add(new Task("Gym", "Need to cancel my gym pass", false));
+    tarefas.add(new Task("Shopping", false, priority[0]));
+    tarefas.add(new Task("Supermarket", true, priority[1]));
+    tarefas.add(new Task("Gym", false, priority[2]));
+    tarefas.add(new Task("Work", false, priority[3]));
   }
 
   @override
@@ -49,7 +49,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 50, left: 15),
+              padding: EdgeInsets.only(top: 50, left: 10, right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -110,10 +110,10 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     height: 10,
                   ),
                   Container(
-                    height: 320,
+                    height: 400,
                     width: 500,
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.vertical,
                       itemCount: tarefas.length,
                       itemBuilder: (context, index) {
                         return _cardTarefa(context, index);
@@ -127,7 +127,10 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CreateCard()));
+        },
         child: Icon(Icons.add, color: Colors.deepPurple),
         backgroundColor: Colors.white.withOpacity(0.9),
       ),
@@ -136,42 +139,68 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
 
   Widget _cardTarefa(BuildContext context, int index) {
     return Container(
-      width: 250,
+      width: 75,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
       child: Card(
         color: tarefas[index].completed
-            ? Colors.white
-            : Colors.white.withOpacity(0.4),
+            ? Colors.white.withOpacity(0.4)
+            : Colors.white,
         child: Wrap(
           children: <Widget>[
-            Column(
+            Row(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, left: 0.0),
+                Checkbox(
+                  value: tarefas[index].completed,
+                  onChanged: (bool value) {
+                    setState(() {
+                      tarefas[index].completed = value;
+                    });
+                  },
+                ),
+                Container(
+                  width: 180,
                   child: Text(
                     tarefas[index].name,
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
-                      textStyle: TextStyle(
-                        color: Color.fromRGBO(0, 0, 51, 1),
-                      ),
+                      textStyle: tarefas[index].completed
+                          ? TextStyle(
+                              color: Color.fromRGBO(0, 0, 51, 0.7),
+                              decoration: TextDecoration.lineThrough,
+                            )
+                          : TextStyle(
+                              color: Color.fromRGBO(0, 0, 51, 1),
+                            ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 8.0, left: 8.0),
-                  child: Text(
-                    tarefas[index].description,
-                    style: GoogleFonts.roboto(
-                      fontSize: 15,
-                      textStyle: TextStyle(
-                        color: Color.fromRGBO(0, 0, 51, 1),
+                  padding: EdgeInsets.only(right: 5),
+                  child: Container(
+                    width: 60,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: _selectColor(tarefas[index].priority)),
+                    child: Center(
+                      child: Text(
+                        tarefas[index].priority,
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          textStyle: tarefas[index].completed
+                              ? TextStyle(
+                                  color: Colors.white.withOpacity(0.7),
+                                  decoration: TextDecoration.lineThrough,
+                                )
+                              : TextStyle(
+                                  color: Colors.white,
+                                ),
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -182,5 +211,18 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         ),
       ),
     );
+  }
+
+  Color _selectColor(String priority) {
+    switch (priority) {
+      case "Low":
+        return Colors.lightBlue;
+      case "Normal":
+        return Colors.green;
+      case "High":
+        return Colors.orange;
+      case "Urgent":
+        return Colors.red;
+    }
   }
 }

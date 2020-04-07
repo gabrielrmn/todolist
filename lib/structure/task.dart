@@ -1,7 +1,7 @@
 class Task {
   String name;
-  String description;
   bool completed;
+  String priority;
 
-  Task(this.name, this.description, this.completed);
+  Task(this.name, this.completed, this.priority);
 }
