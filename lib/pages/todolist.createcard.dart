@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todolist/structure/task.dart';
 
 class CreateCard extends StatefulWidget {
   @override
@@ -8,6 +9,9 @@ class CreateCard extends StatefulWidget {
 
 class _CreateCardState extends State<CreateCard> {
   String dropdownValue = 'Low';
+  Task task;
+  TextEditingController titleController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +42,16 @@ class _CreateCardState extends State<CreateCard> {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: titleController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: "Title",
-                    labelStyle: TextStyle(
-                      color: Colors.black,
+                    labelText: "Title:",
+                    labelStyle: GoogleFonts.roboto(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                     hintText: "Type the name of the task here",
                     focusColor: Colors.black,
@@ -57,13 +66,18 @@ class _CreateCardState extends State<CreateCard> {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: descriptionController,
                   keyboardType: TextInputType.text,
                   minLines: 4,
                   maxLines: null,
                   decoration: InputDecoration(
-                    labelText: "Description",
-                    labelStyle: TextStyle(
-                      color: Colors.black,
+                    labelText: "Description:",
+                    labelStyle: GoogleFonts.roboto(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                     hintText: "Type the description of the task here",
                     focusColor: Colors.black,
@@ -76,21 +90,64 @@ class _CreateCardState extends State<CreateCard> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 30.0),
-                child: DropdownButton(
-                  value: dropdownValue,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue = newValue;
-                    });
-                  },
-                  items: <String>['Low', 'Normal', 'High', 'Urgent']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                padding: EdgeInsets.only(top: 25.0, left: 8),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        "Priority:",
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    DropdownButton(
+                      value: dropdownValue,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['Low', 'Normal', 'High', 'Urgent']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.black,
+                    ),
+                    child: FlatButton(
+                      onPressed: () {
+                        _saveTask();
+                      },
+                      child: Text(
+                        "Create",
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -98,5 +155,10 @@ class _CreateCardState extends State<CreateCard> {
         ],
       ),
     );
+  }
+
+  _saveTask() {
+    task = new Task(titleController.toString(), false, dropdownValue,
+        descriptionController.toString());
   }
 }
