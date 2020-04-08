@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CreateCard extends StatelessWidget {
+class CreateCard extends StatefulWidget {
+  @override
+  _CreateCardState createState() => _CreateCardState();
+}
+
+class _CreateCardState extends State<CreateCard> {
+  String dropdownValue = 'Low';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +73,24 @@ class CreateCard extends StatelessWidget {
                     ),
                     fillColor: Colors.black,
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 30.0),
+                child: DropdownButton(
+                  value: dropdownValue,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>['Low', 'Normal', 'High', 'Urgent']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
               ),
             ],

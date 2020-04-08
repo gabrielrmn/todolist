@@ -149,7 +149,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                   },
                 ),
                 Container(
-                  width: 180,
+                  width: 120,
                   child: AutoSizeText(
                     tarefas[index].name,
                     style: GoogleFonts.roboto(
@@ -166,7 +166,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 5),
+                  padding: EdgeInsets.only(left: 40, right: 10),
                   child: Container(
                     width: 60,
                     height: 20,
@@ -214,89 +214,64 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.only(top: 160, left: 20, right: 20),
+          contentPadding: EdgeInsets.only(left: 20, right: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
           backgroundColor: Colors.transparent,
-          content: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 10),
-                height: 180,
-                width: 600,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.zoom_in),
-                        ),
-                        Text("Visualize Task"),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.edit),
-                        ),
-                        Text("Edit Task"),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              tarefas.removeAt(index);
-                              Navigator.pop(context);
-                            });
-                          },
-                          icon: Icon(Icons.delete),
-                        ),
-                        Text("Delete Task"),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Container(
-                  height: 30,
-                  width: 150,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 10),
+                  height: 180,
+                  width: 600,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white,
                   ),
-                  child: SizedBox.expand(
-                    child: FlatButton(
-                        child: Text(
-                          'FECHAR',
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 10),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.zoom_in),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
+                          Text("Visualize Task"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.edit),
+                          ),
+                          Text("Edit Task"),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                tarefas.removeAt(index);
+                                Navigator.pop(context);
+                              });
+                            },
+                            icon: Icon(Icons.delete),
+                          ),
+                          Text("Delete Task"),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -314,5 +289,6 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
       case "Urgent":
         return Colors.red;
     }
+    return Colors.transparent;
   }
 }
