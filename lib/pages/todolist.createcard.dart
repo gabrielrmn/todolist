@@ -158,7 +158,8 @@ class _CreateCardState extends State<CreateCard> {
   }
 
   _saveTask() {
-    task = new Task(titleController.toString(), false, dropdownValue,
-        descriptionController.toString());
+    task = new Task(
+        titleController.text, false, dropdownValue, descriptionController.text);
+    Navigator.pop(context, task);
   }
 }
