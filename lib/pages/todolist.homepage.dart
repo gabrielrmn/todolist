@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todolist/structure/task.dart';
 import 'package:todolist/pages/todolist.createcard.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:todolist/structure/taskDb.dart';
 
 class ToDoListHomePage extends StatefulWidget {
   @override
@@ -14,16 +15,13 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
   var now = new DateTime.now();
   List<Task> tarefas = new List();
   List<String> priority = ["Low", "Normal", "High", "Urgent"];
+  Helper helper = Helper();
   //aqui estamos indicando o estado inicial de nosso widget
   @override
   void initState() {
     super.initState();
 
-    tarefas.add(new Task("Shopping", false, priority[0], "asfasfsaf"));
-    tarefas.add(new Task("Supermarket", true, priority[1], "asfasasffsaf"));
-    tarefas.add(new Task("Gym", false, priority[2], "asfasfsasfasfasfasfaf"));
-    tarefas
-        .add(new Task("Work", false, priority[3], "asfasfasfasfasfsafasfsaf"));
+    _getAllTasks();
   }
 
   @override
@@ -115,8 +113,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => CreateCard()));
+          _sendTask();
         },
         child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Colors.black.withOpacity(0.9),
@@ -238,7 +235,10 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                              _visualizeTask(index);
+                            },
                             icon: Icon(Icons.zoom_in),
                           ),
                           Text("Visualize Task"),
@@ -290,5 +290,123 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         return Colors.red;
     }
     return Colors.transparent;
+  }
+
+  _visualizeTask(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.only(left: 20, right: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          content: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(top: 10),
+              width: 600,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Colors.white,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      tarefas[index].name,
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 20),
+                    child: Text(
+                      tarefas[index].description,
+                      style: GoogleFonts.roboto(
+                        fontSize: 15,
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, top: 30, bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "Priority:",
+                            style: GoogleFonts.roboto(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              textStyle: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 60,
+                          height: 20,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: _selectColor(tarefas[index].priority)),
+                          child: Center(
+                            child: Text(
+                              tarefas[index].priority,
+                              style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _getAllTasks() {
+    helper.getAllTask().then((list) {
+      setState(() {
+        tarefas = list;
+      });
+    });
+  }
+
+  _sendTask() async {
+    setState(() async {
+      Task task = await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CreateCard()));
+      if (task.priority != null &&
+          task.name != null &&
+          task.description != null) helper.saveTask(task);
+
+      _getAllTasks();
+    });
   }
 }
