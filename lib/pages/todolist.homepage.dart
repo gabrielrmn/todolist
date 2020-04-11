@@ -21,11 +21,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
   void initState() {
     super.initState();
 
-    tarefas.add(new Task("Shopping", false, priority[0], "asfasfsaf"));
-    tarefas.add(new Task("Supermarket", true, priority[1], "asfasasffsaf"));
-    tarefas.add(new Task("Gym", false, priority[2], "asfasfsasfa"));
-    tarefas.add(new Task("Work", false, priority[3],
-        "asfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsafasfasfasfasfasfsafasfsaf"));
+    _getAllTasks();
   }
 
   @override
@@ -394,13 +390,23 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
     );
   }
 
+  void _getAllTasks() {
+    helper.getAllTask().then((list) {
+      setState(() {
+        tarefas = list;
+      });
+    });
+  }
+
   _sendTask() async {
     setState(() async {
       Task task = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => CreateCard()));
       if (task.priority != null &&
           task.name != null &&
-          task.description != null) tarefas.add(task);
+          task.description != null) helper.saveTask(task);
+
+      _getAllTasks();
     });
   }
 }
