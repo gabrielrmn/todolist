@@ -160,14 +160,52 @@ class _CreateCardState extends State<CreateCard> {
   }
 
   _saveTask() {
-    if (titleController.text != null &&
-        descriptionController != null &&
-        dropdownValue != null) {
+    if (titleController.text != "" && descriptionController.text != "") {
       task = new Task(titleController.text, false, dropdownValue,
           descriptionController.text);
       Navigator.pop(context, task);
     } else {
-      //_showMessage();
+      _showMessage();
     }
+  }
+
+  _showMessage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.only(left: 20, right: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          content: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(top: 10),
+              height: 150,
+              width: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Colors.white,
+              ),
+              child: Center(
+                child: Text(
+                  "Please, fill all fields!",
+                  style: GoogleFonts.roboto(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

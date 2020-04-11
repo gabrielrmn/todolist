@@ -13,9 +13,12 @@ class ToDoListHomePage extends StatefulWidget {
 
 class _ToDoListHomePageState extends State<ToDoListHomePage> {
   var now = new DateTime.now();
+  String dropdownValue = 'Low';
   List<Task> tarefas = new List();
   List<String> priority = ["Low", "Normal", "High", "Urgent"];
   Helper helper = Helper();
+  TextEditingController titleController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
   //aqui estamos indicando o estado inicial de nosso widget
   @override
   void initState() {
@@ -27,6 +30,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -204,8 +208,6 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
     );
   }
 
-  void _showEditCard(int index) {}
-
   void _showMoreHoriz(int index) {
     showDialog(
       context: context,
@@ -247,7 +249,10 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                              _showEditCard(index);
+                            },
                             icon: Icon(Icons.edit),
                           ),
                           Text("Edit Task"),
@@ -257,8 +262,9 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                         children: <Widget>[
                           IconButton(
                             onPressed: () {
+                              helper.deleteTask(tarefas[index].id);
                               setState(() {
-                                tarefas.removeAt(index);
+                                _getAllTasks();
                                 Navigator.pop(context);
                               });
                             },
@@ -383,6 +389,150 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                   ),
                 ],
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showEditCard(int index) {
+    titleController.text = tarefas[index].name;
+    descriptionController.text = tarefas[index].description;
+    dropdownValue = tarefas[index].priority;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.only(left: 20, right: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          backgroundColor: Colors.white,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: titleController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "Title:",
+                      labelStyle: GoogleFonts.roboto(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                      focusColor: Colors.black,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                      ),
+                      fillColor: Colors.black,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: descriptionController,
+                    keyboardType: TextInputType.text,
+                    minLines: null,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      labelText: "Description:",
+                      labelStyle: GoogleFonts.roboto(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                      hintText: "Type the description of the task here",
+                      focusColor: Colors.black,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                      ),
+                      fillColor: Colors.black,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 25.0, left: 8),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text(
+                          "Priority:",
+                          style: GoogleFonts.roboto(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      DropdownButton(
+                        value: dropdownValue,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        },
+                        items: <String>['Low', 'Normal', 'High', 'Urgent']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 100, bottom: 10),
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.black,
+                      ),
+                      child: FlatButton(
+                        onPressed: () {
+                          tarefas[index].name = titleController.text;
+                          tarefas[index].description =
+                              descriptionController.text;
+                          tarefas[index].priority = dropdownValue;
+                          helper.updateTask(tarefas[index]);
+                          setState(() {
+                            _getAllTasks();
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Update Task",
+                          style: GoogleFonts.roboto(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
