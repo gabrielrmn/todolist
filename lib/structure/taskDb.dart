@@ -30,7 +30,7 @@ class Helper {
 
   Future<Database> initDb() async {
     final databasesPath = await getDatabasesPath();
-    final path = join(databasesPath, "contactsnew.db");
+    final path = join(databasesPath, "tasksnew.db");
 
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
@@ -40,15 +40,15 @@ class Helper {
     });
   }
 
-  Future<Task> saveTask(Task contact) async {
-    Database dbContact = await db;
-    contact.id = await dbContact.insert(taskTable, contact.toMap());
-    return contact;
+  Future<Task> saveTask(Task task) async {
+    Database dbTask = await db;
+    task.id = await dbTask.insert(taskTable, task.toMap());
+    return task;
   }
 
   Future<Task> getTask(int id) async {
-    Database dbContact = await db;
-    List<Map> maps = await dbContact.query(taskTable,
+    Database dbTask = await db;
+    List<Map> maps = await dbTask.query(taskTable,
         columns: [
           idColumn,
           nameColumn,
@@ -66,35 +66,35 @@ class Helper {
   }
 
   Future<int> deleteTask(int id) async {
-    Database dbContact = await db;
-    return await dbContact
+    Database dbTask = await db;
+    return await dbTask
         .delete(taskTable, where: "$idColumn = ?", whereArgs: [id]);
   }
 
-  Future<int> updateTask(Task contact) async {
-    Database dbContact = await db;
-    return await dbContact.update(taskTable, contact.toMap(),
-        where: "$idColumn = ?", whereArgs: [contact.id]);
+  Future<int> updateTask(Task task) async {
+    Database dbTask = await db;
+    return await dbTask.update(taskTable, task.toMap(),
+        where: "$idColumn = ?", whereArgs: [task.id]);
   }
 
   Future<List> getAllTask() async {
-    Database dbContact = await db;
-    List listMap = await dbContact.rawQuery("SELECT * FROM $taskTable");
-    List<Task> listContact = List();
+    Database dbTask = await db;
+    List listMap = await dbTask.rawQuery("SELECT * FROM $taskTable");
+    List<Task> listTask = List();
     for (Map m in listMap) {
-      listContact.add(Task.fromMap(m));
+      listTask.add(Task.fromMap(m));
     }
-    return listContact;
+    return listTask;
   }
 
   Future<int> getNumber() async {
-    Database dbContact = await db;
+    Database dbTask = await db;
     return Sqflite.firstIntValue(
-        await dbContact.rawQuery("SELECT COUNT(*) FROM $taskTable"));
+        await dbTask.rawQuery("SELECT COUNT(*) FROM $taskTable"));
   }
 
   Future close() async {
-    Database dbContact = await db;
-    dbContact.close();
+    Database dbTask = await db;
+    dbTask.close();
   }
 }
