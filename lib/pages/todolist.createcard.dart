@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todolist/structure/task.dart';
+import 'package:todolist/structure/taskDb.dart';
 
 class CreateCard extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _CreateCardState extends State<CreateCard> {
   Task task;
   TextEditingController titleController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
+  Helper helper = Helper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todolist/structure/task.dart';
 import 'package:todolist/pages/todolist.createcard.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:todolist/structure/taskDb.dart';
 
 class ToDoListHomePage extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
   var now = new DateTime.now();
   List<Task> tarefas = new List();
   List<String> priority = ["Low", "Normal", "High", "Urgent"];
+  Helper helper = Helper();
   //aqui estamos indicando o estado inicial de nosso widget
   @override
   void initState() {
