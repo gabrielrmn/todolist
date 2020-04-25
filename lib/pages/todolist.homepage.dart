@@ -71,7 +71,7 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
                     height: 10,
                   ),
                   Text(
-                    "You have ${tarefas.length} tasks to complete",
+                    "You have ${_getTasksToDo()} tasks to complete",
                     style: GoogleFonts.roboto(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -282,6 +282,14 @@ class _ToDoListHomePageState extends State<ToDoListHomePage> {
         );
       },
     );
+  }
+
+  int _getTasksToDo() {
+    int tasksToDo = 0;
+    for (int i = 0; i < tarefas.length; i++) {
+      if (!tarefas[i].completed) tasksToDo += 1;
+    }
+    return tasksToDo;
   }
 
   Color _selectColor(String priority) {
